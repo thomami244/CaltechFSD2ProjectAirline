@@ -28,16 +28,16 @@ form {text-align: center;}
      user="root"  password="root"/>  
 
 <br>
-<h3>Please login:</h3>
-<form action="login.jsp" method="post">
-UserName: <input type="text" name="username"  required/><br>
-Password: <input  type="password" name="password" required/><br>
+<h3>Admin login:</h3>
+<form action="admindashboard.jsp" method="post">
+UserName: <input type="text" name="adminUsername"  required/><br>
+Password: <input  type="password" name="adminPassword" required/><br>
 <button><input type="submit" value="Submit"></button>
 <input type="reset"/> 
 </form>
 
-username: <%= request.getParameter("username") %> <br>
-password: <%= request.getParameter("password") %><br> 
+username: <%= request.getParameter("adminUsername") %> <br>
+password: <%= request.getParameter("adminPassword") %><br> 
 
 
 <!-- sql:query  tag --> 
@@ -52,17 +52,18 @@ password: <%= request.getParameter("password") %><br>
 			<c:out value="${table.password}"/> <br>
 
 	</c:forEach> 
-	<c:if test="${param.username != null}">
+	<c:if test="${param.adminUsername == 'admin@email.com'}">
 	<%--<c:out value="${'username is not null'}"/> --%>
 	
 		<c:forEach var="table" items="${rs.rows}"> 
 		<%--<c:out value="${'password is not null'}"/> --%>
+		<c:if test="${table.adminUsername  == 'admin@email.com'}"> 
 
-		<c:if test="${param.username eq table.username}"> 
-		<c:if test="${param.password eq table.password}"> 
+		
+		<c:if test="${param.adminPassword eq table.password}"> 
 		 <c:set var="sessionUsername" value="${param.username}" scope="session" />
 		
-		  <c:redirect url="searchflights.jsp"> </c:redirect>
+		  <c:redirect url="admindashboard.jsp"> </c:redirect>
 		 </c:if>
 		</c:if>
 		 
@@ -71,17 +72,6 @@ password: <%= request.getParameter("password") %><br>
 
 <p>Incorrect username or password. Please try again</p>
 </c:if> 
-
-<h3>Admin login:</h3>
-<form action="sessionhandling.jsp" method="post">
-<button><input type="submit" value="Admin Login"></button>
-</form>
-
-username: <%= request.getParameter("username") %> <br>
-password: <%= request.getParameter("password") %><br> 
-
-
-<!-- sql:query  tag --> 
 
 <%--
 <c:forEach var="user" items="${User_Login.rows}" >
